@@ -1,0 +1,4 @@
+__pycache__
+YOLOv3/yolov3_training_3000.weights
+models/edges.hdf5
+log/
