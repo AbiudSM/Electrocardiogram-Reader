@@ -11,7 +11,7 @@ def analyze_image(img):
 	risk_colors = [None, (255,0,0), (255,255,0), (0,0,255), ]
 	risk_text = ['Sano', 'Onda-S', 'Onda-T', 'Onda-Q']
 	
-	coords, img = yolo_prediction(img)
+	coords, yolo_image = yolo_prediction(img)
 
 	for pts in coords:
 		pt1, pt2 = pts
@@ -26,7 +26,10 @@ def analyze_image(img):
 	return img
 
 
-def yolo_prediction(img):
+def yolo_prediction(image):
+
+	img = image.copy()
+
 	# Load Yolo
 	net = cv2.dnn.readNet(YOLO_MODEL, YOLO_CONFIG)
 
@@ -79,5 +82,6 @@ def yolo_prediction(img):
 			# ? if all corrds are positive
 			if x > 0 and y > 0 and pt2[0] > 0 and pt2[1] > 0:
 				coords.append([pt1,pt2])
+				cv2.rectangle(img, pt1, pt2, (0,255,0), 2)
 
 	return coords, img

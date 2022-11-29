@@ -35,6 +35,10 @@ def record_screen():
 
 		if detection_status == 1:
 			edges = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+			coords, edges = methods.yolo_prediction(edges)
+
+		elif detection_status == 2:
+			edges = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
 			edges = methods.analyze_image(edges)
 
 		# Set image to output image label
@@ -92,7 +96,8 @@ second_threshold.grid(column=0, row=5)
 # Radio buttons
 selection = IntVar()
 Radiobutton(root, text="Desactivado", variable=selection, value=0, command=set_detection_status).grid(column=0, row=6)
-Radiobutton(root, text="CNN", variable=selection, value=1, command=set_detection_status).grid(column=0, row=7)
+Radiobutton(root, text="YOLOv3", variable=selection, value=1, command=set_detection_status).grid(column=0, row=7)
+Radiobutton(root, text="YOLOv3 + CNN", variable=selection, value=2, command=set_detection_status).grid(column=0, row=8)
 
 
 # Output image
