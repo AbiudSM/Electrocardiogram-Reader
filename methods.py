@@ -1,11 +1,11 @@
 import cv2
 import numpy as np
 import ECG_CNN as cnn
-from config import YOLO_CONFIG, YOLO_MODEL
+from config import *
 
 # Electrocardiogram full image analyze_image function
 # ? returns the image with the ecgs at risk indicated by a red rectangle
-def analyze_image(model_path, img):
+def analyze_image(img):
 
 	# Prediction colors, 0 -> sano, 1 -> onda S, 2 -> onda T, 3 -> onda Q
 	risk_colors = [None, (255,0,0), (255,255,0), (0,0,255), ]
@@ -17,7 +17,7 @@ def analyze_image(model_path, img):
 		pt1, pt2 = pts
 		cutted_image = img[pt1[1]:pt2[1], pt1[0]:pt2[0]]
 		
-		prediction = int(cnn.prediction(model_path,cutted_image))
+		prediction = int(cnn.prediction(MODEL_PATH,cutted_image))
 
 		if prediction != 0:
 			img = cv2.rectangle(img, pt1, pt2, risk_colors[prediction], 3)

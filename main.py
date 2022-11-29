@@ -7,31 +7,38 @@ import imutils
 import numpy as np
 import pyautogui
 import threading
+import methods
 
 screen_recorded = False
+detection_status = 0
 
 def record_screen():
 	global screen_recorded
 	global image
+	global detection_status
 
-	# Label IMAGEN DE SALIDA
+	# Label output image
 	text_output_image = Label(root, text="OUTPUT IMAGE:", font="bold")
 	text_output_image.grid(column=1, row=0, padx=5, pady=5)
 
 	screen_recorded = True
 
 	while screen_recorded == True:
-		image = np.array(pyautogui.screenshot()) 
+		image = np.array(pyautogui.screenshot())
 		image = cv2.resize(image, (1000,600))
 
-		umbral_1 = first_threshold.get()
-		umbral_2 = second_threshold.get()
+		threshold_1 = first_threshold.get()
+		threshold_2 = second_threshold.get()
 
 		grises = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-		bordes = cv2.Canny(grises, umbral_1, umbral_2)
+		edges = cv2.Canny(grises, threshold_1, threshold_2)
 
-		# Para visualizar la imagen en label_output_image en la GUI
-		im = Image.fromarray(bordes)
+		if detection_status == 1:
+			edges = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+			edges = methods.analyze_image(edges)
+
+		# Set image to output image label
+		im = Image.fromarray(edges)
 		img = ImageTk.PhotoImage(image=im)
 		label_output_image.configure(image=img)
 		label_output_image.image = img
@@ -51,14 +58,23 @@ def stop_button_screen_recording():
 	screen_recorded = False
 
 
+def set_detection_status():
+	global detection_status
+	detection_status = selection.get()
+
+
+
 # Root window
 root = Tk()
 root.geometry('1280x720')
 root.title('ECG reader')
 
+# Buttons
+record_screen_button = Button(root, text="Record screen", width=25, command=record_screen_thread)
+record_screen_button.grid(column=0, row=0, padx=5, pady=5)
 
-label_output_image = Label(root)
-label_output_image.grid(column=1, row=1, rowspan=6)
+stop_button = Button(root, text="stop_button screeen recording", width=25, command=stop_button_screen_recording)
+stop_button.grid(column=0, row=1, padx=5, pady=5)
 
 
 # Thresholds
@@ -73,12 +89,14 @@ second_threshold = Scale(root, from_=0, to=1000, orient=HORIZONTAL)
 second_threshold.grid(column=0, row=5)
 
 
-# Buttons
-record_screen_button = Button(root, text="Record screen", width=25, command=record_screen_thread)
-record_screen_button.grid(column=0, row=0, padx=5, pady=5)
+# Radio buttons
+selection = IntVar()
+Radiobutton(root, text="Desactivado", variable=selection, value=0, command=set_detection_status).grid(column=0, row=6)
+Radiobutton(root, text="CNN", variable=selection, value=1, command=set_detection_status).grid(column=0, row=7)
 
-stop_button = Button(root, text="stop_button screeen recording", width=25, command=stop_button_screen_recording)
-stop_button.grid(column=0, row=1, padx=5, pady=5)
 
+# Output image
+label_output_image = Label(root)
+label_output_image.grid(column=1, row=1, rowspan=6)
 
 root.mainloop()
