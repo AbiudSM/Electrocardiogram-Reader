@@ -17,6 +17,9 @@ def record_screen():
 	global image
 	global detection_status
 
+	record_screen_button.config(state='disabled')
+	stop_button.config(state='normal')
+
 	# Label output image
 	text_output_image = Label(root, text="OUTPUT IMAGE:", font="bold")
 	text_output_image.grid(column=1, row=0, padx=5, pady=5)
@@ -51,6 +54,8 @@ def record_screen():
 	label_output_image.configure(image='')
 	label_output_image.image = ''
 	text_output_image.grid_forget()
+	record_screen_button.config(state='normal')
+	stop_button.config(state='disabled')
 
 
 def record_screen_thread():
@@ -77,7 +82,7 @@ root.title('ECG reader')
 record_screen_button = Button(root, text="Record screen", width=25, command=record_screen_thread)
 record_screen_button.grid(column=0, row=0, padx=5, pady=5)
 
-stop_button = Button(root, text="stop_button screeen recording", width=25, command=stop_button_screen_recording)
+stop_button = Button(root, text="stop_button screeen recording", width=25, command=stop_button_screen_recording, state='disabled')
 stop_button.grid(column=0, row=1, padx=5, pady=5)
 
 
@@ -86,10 +91,10 @@ label_thresholds = Label(root, text="UMBRALES", width=25)
 label_thresholds.grid(column=0, row=3, padx=5, pady=5)
 
 
-first_threshold = Scale(root, from_=0, to=1000, orient=HORIZONTAL)
+first_threshold = Scale(root, from_=0, to=500, orient=HORIZONTAL, length=200)
 first_threshold.grid(column=0, row=4)
 
-second_threshold = Scale(root, from_=0, to=1000, orient=HORIZONTAL)
+second_threshold = Scale(root, from_=0, to=500, orient=HORIZONTAL, length=200)
 second_threshold.grid(column=0, row=5)
 
 
