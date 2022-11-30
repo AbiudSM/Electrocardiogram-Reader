@@ -75,7 +75,7 @@ def set_detection_status():
 
 # Root window
 root = Tk()
-root.geometry('1280x720')
+root.geometry('1280x750')
 root.title('ECG reader')
 
 # Buttons
@@ -107,6 +107,6 @@ Radiobutton(root, text="YOLOv3 + CNN", variable=selection, value=2, command=set_
 
 # Output image
 label_output_image = Label(root)
-label_output_image.grid(column=1, row=1, rowspan=6)
+label_output_image.grid(column=1, row=2, rowspan=6)
 
 root.mainloop()
