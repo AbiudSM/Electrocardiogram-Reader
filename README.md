@@ -24,6 +24,7 @@ The detection is handled by the main interface, we can start recording and modif
 
 - Detection model: There are 3 detection states, disabled, no model is used, YOLOv3 is used for the detection of electrocardiograms and YOLOv3 + CNN is used for the classification between abnormalities presented in the electrocardiogram waves.
 
-**Performance**
+### Performance
 OPENCV does not use the GPU in its default usage, the performance obtained with the core i5-12400 processor was stable, it will be working with the GPU application to compare results
+
 ![performance](https://user-images.githubusercontent.com/71671063/205141250-7374bea8-acb5-429d-90d3-145d79767c05.jpg)
