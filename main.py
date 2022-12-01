@@ -62,7 +62,7 @@ def record_screen_thread():
 	threading.Thread(target=record_screen, daemon = True).start()
 
 
-def stop_button_screen_recording():
+def stop_screenshot():
 	global screen_recorded
 	screen_recorded = False
 
@@ -82,12 +82,12 @@ root.title('ECG reader')
 record_screen_button = Button(root, text="Record screen", width=25, command=record_screen_thread)
 record_screen_button.grid(column=0, row=0, padx=5, pady=5)
 
-stop_button = Button(root, text="stop_button screeen recording", width=25, command=stop_button_screen_recording, state='disabled')
+stop_button = Button(root, text="Stop screenshot", width=25, command=stop_screenshot, state='disabled')
 stop_button.grid(column=0, row=1, padx=5, pady=5)
 
 
 # Thresholds
-label_thresholds = Label(root, text="UMBRALES", width=25)
+label_thresholds = Label(root, text="Thresholds", width=25)
 label_thresholds.grid(column=0, row=3, padx=5, pady=5)
 
 
@@ -100,7 +100,7 @@ second_threshold.grid(column=0, row=5)
 
 # Radio buttons
 selection = IntVar()
-Radiobutton(root, text="Desactivado", variable=selection, value=0, command=set_detection_status).grid(column=0, row=6)
+Radiobutton(root, text="Disabled", variable=selection, value=0, command=set_detection_status).grid(column=0, row=6)
 Radiobutton(root, text="YOLOv3", variable=selection, value=1, command=set_detection_status).grid(column=0, row=7)
 Radiobutton(root, text="YOLOv3 + CNN", variable=selection, value=2, command=set_detection_status).grid(column=0, row=8)
 
