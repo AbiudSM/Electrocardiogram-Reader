@@ -3,9 +3,11 @@ import numpy as np
 import ECG_CNN as cnn
 from config import *
 
-# Electrocardiogram full image analyze_image function
-# ? returns the image with the ecgs at risk indicated by a red rectangle
 def analyze_image(img):
+	"""
+	Electrocardiogram full image analyze function
+	@returns the image with the ecgs at risk indicated by a rectangle depending on the anomaly
+	"""
 
 	# Prediction colors, 0 -> sano, 1 -> onda S, 2 -> onda T, 3 -> onda Q
 	risk_colors = [None, (255,0,0), (255,255,0), (0,0,255), ]
@@ -27,6 +29,10 @@ def analyze_image(img):
 
 
 def yolo_prediction(image):
+	"""
+	YOLOv3 prediction of image, detect all electrocardiograms in the image
+	@returns a list (coords,image): with the coordinates where the detected ECGs are located and the input image with rectangles where the ECGs are located
+	"""
 
 	img = image.copy()
 

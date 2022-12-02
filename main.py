@@ -1,9 +1,7 @@
 from tkinter import *
-from tkinter import filedialog
 from PIL import Image
 from PIL import ImageTk
 import cv2
-import imutils
 import numpy as np
 import pyautogui
 import threading
