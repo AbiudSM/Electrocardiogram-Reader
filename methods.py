@@ -91,3 +91,9 @@ def yolo_prediction(image):
 				cv2.rectangle(img, pt1, pt2, (0,255,0), 2)
 
 	return coords, img
+
+
+def cnn_prediction(image) -> str:
+	risk_text = ['Sano', 'Onda-S', 'Onda-T', 'Onda-Q']
+	prediction = cnn.prediction(MODEL_PATH,image)
+	return risk_text[int(prediction)]

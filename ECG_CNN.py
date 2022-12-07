@@ -166,8 +166,6 @@ def prediction(model_path: str, image: np.ndarray) -> int:
     @image: image read by cv2 module
     """
 
-    global IMG_ROWS
-    global IMG_COLS
     
     num_channel=1
 

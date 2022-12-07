@@ -39,8 +39,14 @@ def record_screen():
 			coords, edges = methods.yolo_prediction(edges)
 
 		elif detection_status == 2:
+			risk_text = methods.cnn_prediction(edges)
+			risk_text_label.config(text="Prediction: "+risk_text)
+			
+
+		elif detection_status == 3:
 			edges = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
 			edges = methods.analyze_image(edges)
+
 
 		# Set image to output image label
 		im = Image.fromarray(edges)
@@ -52,6 +58,7 @@ def record_screen():
 	label_output_image.configure(image='')
 	label_output_image.image = ''
 	text_output_image.grid_forget()
+	risk_text_label.grid_forget()
 	record_screen_button.config(state='normal')
 	stop_button.config(state='disabled')
 
@@ -100,11 +107,16 @@ second_threshold.grid(column=0, row=5)
 selection = IntVar()
 Radiobutton(root, text="Disabled", variable=selection, value=0, command=set_detection_status).grid(column=0, row=6)
 Radiobutton(root, text="YOLOv3", variable=selection, value=1, command=set_detection_status).grid(column=0, row=7)
-Radiobutton(root, text="YOLOv3 + CNN", variable=selection, value=2, command=set_detection_status).grid(column=0, row=8)
+Radiobutton(root, text="CNN", variable=selection, value=2, command=set_detection_status).grid(column=0, row=8)
+Radiobutton(root, text="YOLOv3 + CNN", variable=selection, value=3, command=set_detection_status).grid(column=0, row=9)
+
 
 
 # Output image
 label_output_image = Label(root)
 label_output_image.grid(column=1, row=2, rowspan=6)
+
+risk_text_label = Label(root, font="bold")
+risk_text_label.grid(column=1, row=8, padx=5, pady=5)
 
 root.mainloop()
