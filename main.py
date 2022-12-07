@@ -80,7 +80,7 @@ def set_detection_status():
 
 # Root window
 root = Tk()
-root.geometry('1280x750')
+root.geometry('1280x780')
 root.title('ECG reader')
 
 # Buttons
