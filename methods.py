@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import ECG_CNN as cnn
 from config import *
+import os
 
 def analyze_image(img):
 	"""
@@ -15,6 +16,8 @@ def analyze_image(img):
 	
 	coords, yolo_image = yolo_prediction(img)
 
+	risk = False
+
 	for pts in coords:
 		pt1, pt2 = pts
 		cutted_image = img[pt1[1]:pt2[1], pt1[0]:pt2[0]]
@@ -24,6 +27,10 @@ def analyze_image(img):
 		if prediction != 0:
 			img = cv2.rectangle(img, pt1, pt2, risk_colors[prediction], 3)
 			cv2.putText(img, risk_text[prediction], (pt1[0],pt1[1]+30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, risk_colors[prediction], 2)
+			risk = True
+
+	if risk: save_image_detection(img)
+
 
 	return img
 
@@ -97,3 +104,12 @@ def cnn_prediction(image) -> str:
 	risk_text = ['Sano', 'Onda-S', 'Onda-T', 'Onda-Q']
 	prediction = cnn.prediction(MODEL_PATH,image)
 	return risk_text[int(prediction)]
+
+
+def save_image_detection(image):
+	DETECTIONS_PATH = 'src/detections/'
+	DETECTIONS_LEN = str(len(os.listdir(DETECTIONS_PATH)) + 1)
+
+	path = DETECTIONS_PATH + DETECTIONS_LEN + '.jpg'
+
+	cv2.imwrite(path,image)
